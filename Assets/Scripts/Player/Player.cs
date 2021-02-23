@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
 
     // Components
     public Rigidbody2D rb { get; private set; }
-    private Animator ani;
+    public Animator ani { get; private set; }
     [SerializeField] private InputReader inputReader;
 
     private void Start() 
@@ -62,7 +62,8 @@ public class Player : MonoBehaviour
             ["idle"] = new IdleState(this),
             ["walk"] = new WalkState(this),
             ["run"] = new RunState(this),
-            ["jump"] = new JumpState(this)
+            ["jump"] = new JumpState(this),
+            ["attack"] = new AttackState(this)
         };
 
         // Begin Character State
@@ -109,7 +110,7 @@ public class Player : MonoBehaviour
 
     private void AttackAction()
     {
-        Debug.Log("Todo : Attack");
+        SetState(stateCache["attack"]);
     }
 
     private void RunButtonAction() 
