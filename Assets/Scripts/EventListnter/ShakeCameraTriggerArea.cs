@@ -15,7 +15,6 @@ public class ShakeCameraTriggerArea : MonoBehaviour
             inputReader.DisablePlayer();
             lightEvent.Raise();
             shakeEvent.Raise(50f, 5f);
-
             DestroySelf();
         }
     }

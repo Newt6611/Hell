@@ -36,6 +36,7 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
+
     private void LoadMainMenu()
     {
         LoadScene(main_menu_scene, false);

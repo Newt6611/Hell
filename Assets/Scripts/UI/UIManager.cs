@@ -8,7 +8,12 @@ public class UIManager : MonoBehaviour
     private bool isPause;
 
     [Header("Events")]
+    [SerializeField] private LoadSceneEventSO loadSceneEvent;
     [SerializeField] private VoidGameEventSO continueGame_channel;
+
+    [Header("Scenes")]
+    [SerializeField] private GameSceneSO[] main_menu;
+
 
     [SerializeField] private InputReader inputReader;
 
@@ -52,6 +57,11 @@ public class UIManager : MonoBehaviour
         isPause = false;
         ClosePausePanel();
         inputReader.EnablePlayer();
+    }
+
+    public void BackToMainMenu()
+    {
+        loadSceneEvent.RaiseEvent(main_menu, false);
     }
 
     private void ShowPausePanel()

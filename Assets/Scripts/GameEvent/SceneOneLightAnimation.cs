@@ -18,12 +18,12 @@ public class SceneOneLightAnimation : MonoBehaviour
         globalLight = GetComponent<Light2D>();
     }
 
-    private void OnEnable() 
+    private void OnEnable()
     {
         lightEvent.eventRaised += PlayAnimation;
     }
 
-    private void OnDisable() 
+    private void OnDisable()
     {
         lightEvent.eventRaised -= PlayAnimation;
     }

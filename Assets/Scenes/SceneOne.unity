@@ -563,7 +563,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.3199997, y: -0.100000024, z: -10}
+  m_LocalPosition: {x: 4.319646, y: -0.100000024, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -749,8 +749,8 @@ GameObject:
   m_Component:
   - component: {fileID: 670910449}
   - component: {fileID: 670910450}
-  - component: {fileID: 670910451}
   - component: {fileID: 670910452}
+  - component: {fileID: 670910451}
   m_Layer: 0
   m_Name: Global Light 2D
   m_TagString: Untagged
@@ -823,7 +823,7 @@ Animator:
   m_GameObject: {fileID: 670910448}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b02983ab5a6d27942a29ff619e03b927, type: 2}
+  m_Controller: {fileID: 9100000, guid: 80e509ce587c9b04fb217bf5406b8791, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1070,7 +1070,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993809788}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.3199997, y: -0.100000024, z: -10}
+  m_LocalPosition: {x: 4.319646, y: -0.100000024, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 617874019}
@@ -1227,7 +1227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1212810673}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.390327, y: -12.115281, z: 0}
+  m_LocalPosition: {x: 23.55, y: -12.115281, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
