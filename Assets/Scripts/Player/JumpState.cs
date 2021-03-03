@@ -17,35 +17,41 @@ public class JumpState : IPlayerState
     {
         if(canJump)
         {
-            //player.SetAnimationTrigger("jump");
+            player.SetAnimationBool("jump", true);
             Jump();
             canJump = false;
         }
     }
 
-    public override void OnUpdate() { }
+    public override void OnUpdate() 
+    {
+        
+    }
     
     public override void OnFixedUpdate()
     {
+        player.Movement();
+
         if(Physics2D.OverlapCircle(player.JumpPosition.position, 0.3f, player.WalkableLayer) && !canJump)
         {
-            canJump = true;
-
             if(player.MovementX == 0)
                 player.SetState(player.GetStateCache()["idle"]);
             else if(player.IsRun)
                 player.SetState(player.GetStateCache()["run"]);
             else if(!player.IsRun)
                 player.SetState(player.GetStateCache()["walk"]);
+            canJump = true;
         }
-
-        player.Movement();
     }
 
-    public override void OnExit() { }
-
-    private void Jump() 
+    public override void OnExit() 
     {
-        player.rb.velocity = Vector2.up * player.JumpForce;
+        player.SetAnimationBool("jump", false);
+    }
+
+    public void Jump()
+    {
+        //player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+        player.rb.velocity = new Vector2(player.rb.velocity.x, Vector2.up.y * player.JumpForce);
     }
 }

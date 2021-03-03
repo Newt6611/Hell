@@ -48,14 +48,6 @@ public class Player : MonoBehaviour
         // Init Values
         faceRight = true;
 
-        // Init Input Callbacks
-        inputReader.movementEvent += MovementAction;
-        inputReader.attackEvent += AttackAction;
-        inputReader.runEvent += RunButtonAction;
-        inputReader.jumpEvent += JumpAction;
-        inputReader.controlsChangeEvent += OnControlsChanged;
-
-
         // Init StateCache
         stateCache = new Dictionary<string, IPlayerState>()
         {
@@ -69,6 +61,16 @@ public class Player : MonoBehaviour
         // Begin Character State
         state = stateCache["idle"];
         state.OnEntry();
+    }
+
+    private void OnEnable()
+    {
+        // Init Input Callbacks
+        inputReader.movementEvent += MovementAction;
+        inputReader.attackEvent += AttackAction;
+        inputReader.runEvent += RunButtonAction;
+        inputReader.jumpEvent += JumpAction;
+        inputReader.controlsChangeEvent += OnControlsChanged;
     }
 
     private void OnDisable()
@@ -132,7 +134,7 @@ public class Player : MonoBehaviour
     public void Movement() 
     {
         rb.velocity = new Vector2(movement.x * speed * Time.fixedDeltaTime, rb.velocity.y);
-    
+
         if(movement.x > 0 && !faceRight)
             Flip();
         else if(movement.x < 0 && faceRight)
