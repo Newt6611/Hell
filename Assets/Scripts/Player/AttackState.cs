@@ -18,10 +18,6 @@ public class AttackState : IPlayerState
 
     public override void OnUpdate()
     {
-        if(!player.ani.GetCurrentAnimatorStateInfo(0).IsName("attack"))
-        {
-            player.SetState(player.stateCache["idle"]);
-        }
     }
 
     public override void OnFixedUpdate()

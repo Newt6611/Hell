@@ -127,7 +127,10 @@ public class Player : MonoBehaviour
 
 
 
-
+    public void AAAAaAttack()
+    {
+        Debug.Log("Attack From Player");
+    }
 
 
     /////// Player Behavior ///////////////////////////
