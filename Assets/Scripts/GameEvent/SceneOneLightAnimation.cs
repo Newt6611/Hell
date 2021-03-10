@@ -36,6 +36,7 @@ public class SceneOneLightAnimation : MonoBehaviour
     private void SwitchToDarkBackGround()
     {
         lightBG.SetActive(false);
+        blackBG.transform.position = lightBG.transform.position;
         blackBG.SetActive(true);
         globalLight.intensity = 0.65f;
         Destroy(ani);
