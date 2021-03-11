@@ -166,6 +166,11 @@ public class Player : MonoBehaviour
     }
     
 
+    public void PlayAnimation(string name)
+    {
+        ani.Play(name);
+    }
+
     public void SetAnimationBool(string aniName, bool b) => ani.SetBool(aniName, b);
 
     public void SetAnimationTrigger(string aniName) => ani.SetTrigger(aniName);

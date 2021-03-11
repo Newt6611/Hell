@@ -17,7 +17,8 @@ public class JumpState : IPlayerState
     {
         if(canJump)
         {
-            player.SetAnimationBool("jump", true);
+            //player.SetAnimationBool("jump", true);
+            player.PlayAnimation("jump");
             Jump();
             canJump = false;
         }

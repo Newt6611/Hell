@@ -13,7 +13,8 @@ public class AttackState : IPlayerState
 
     public override void OnEntry()
     {
-        player.SetAnimationTrigger("attack");
+        //player.SetAnimationTrigger("attack");
+        player.PlayAnimation("attack");
     }
 
     public override void OnUpdate()
