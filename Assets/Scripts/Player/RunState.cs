@@ -13,7 +13,8 @@ public class RunState : IPlayerState
 
     public override void OnEntry()
     {
-        player.SetAnimationBool("isRun", true);
+        //player.SetAnimationBool("isRun", true);
+        player.PlayAnimation("run");
         player.SetSpeed(player.RunSpeed);
     }
 
