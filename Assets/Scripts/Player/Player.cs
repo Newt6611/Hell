@@ -125,12 +125,12 @@ public class Player : MonoBehaviour
         // Todo
     }
 
-
-
     public void AAAAaAttack()
     {
         Debug.Log("Attack From Player");
     }
+
+
 
 
     /////// Player Behavior ///////////////////////////
@@ -164,6 +164,7 @@ public class Player : MonoBehaviour
         this.state = _state;
         this.state.OnEntry();       
     }
+    
 
     public void SetAnimationBool(string aniName, bool b) => ani.SetBool(aniName, b);
 
