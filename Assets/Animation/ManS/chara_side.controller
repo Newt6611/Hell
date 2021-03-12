@@ -236,31 +236,7 @@ AnimatorController:
   m_PrefabAsset: {fileID: 0}
   m_Name: chara_side
   serializedVersion: 5
-  m_AnimatorParameters:
-  - m_Name: isWalk
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: isRun
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: attack
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: jump
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+  m_AnimatorParameters: []
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -332,19 +308,19 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -6009989779397837819}
-    m_Position: {x: 30, y: 300, z: 0}
+    m_Position: {x: 30, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4943437166846887632}
-    m_Position: {x: -290, y: 190, z: 0}
+    m_Position: {x: -180, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8267361014050398358}
     m_Position: {x: 30, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4831634827914774168}
-    m_Position: {x: -290, y: 300, z: 0}
+    m_Position: {x: -180, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4595546741375367754}
-    m_Position: {x: 300, y: 190, z: 0}
+    m_Position: {x: 240, y: 180, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -352,7 +328,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -320, y: 540, z: 0}
   m_EntryPosition: {x: -30, y: 100, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ExitPosition: {x: 470, y: -20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -8267361014050398358}
 --- !u!1102 &4595546741375367754

@@ -14,7 +14,7 @@ public class IdleState : IPlayerState
     public override void OnEntry()
     {
         player.SetSpeed(0);
-        player.PlayAnimation("idle");
+        player.PlayAnimation(AniamtionName.idle);
     }
 
     public override void OnUpdate()
