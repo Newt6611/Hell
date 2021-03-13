@@ -33,7 +33,6 @@ public class RunState : IPlayerState
 
     public override void OnExit()
     {
-        player.SetAnimationBool("isRun", false);
         if(player.MovementX == 0)
         {
             player.IsRun = false;

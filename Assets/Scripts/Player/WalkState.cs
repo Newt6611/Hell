@@ -33,6 +33,5 @@ public class WalkState : IPlayerState
 
     public override void OnExit()
     {
-        player.SetAnimationBool("isWalk", false);
     }
 }

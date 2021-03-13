@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
 
     private bool faceRight = true;
     public bool IsRun { get; set; }
+    public bool CanJump { get; set; }
+    public bool CanAttack { get; set; }
 
     [SerializeField] private Transform jumpPos;
     public Transform JumpPosition { get { return jumpPos; } }
@@ -54,6 +56,8 @@ public class Player : MonoBehaviour
 
         // Init Values
         faceRight = true;
+        CanJump = true;
+        CanAttack = true;
 
         // Init StateCache
         stateCache = new Dictionary<string, IPlayerState>()
@@ -114,11 +118,13 @@ public class Player : MonoBehaviour
 
     private void JumpAction()
     {
-        SetState(stateCache["jump"]);
+        if(CanJump)
+            SetState(stateCache["jump"]);
     }
 
     private void AttackAction()
     {
+        CanAttack = false;
         SetState(stateCache["attack"]);
     }
 
@@ -130,11 +136,6 @@ public class Player : MonoBehaviour
     private void OnControlsChanged()
     {
         // Todo
-    }
-
-    public void AAAAaAttack()
-    {
-        Debug.Log("Attack From Player");
     }
 
 
@@ -157,6 +158,20 @@ public class Player : MonoBehaviour
         Vector2 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+
+    public void GroundDetection()
+    {
+        if(Physics2D.OverlapCircle(JumpPosition.position, 0.3f, WalkableLayer) && !CanJump)
+        {
+            if(MovementX == 0)
+                SetState(GetStateCache()["idle"]);
+            else if(IsRun)
+                SetState(GetStateCache()["run"]);
+            else if(!IsRun)
+                SetState(GetStateCache()["walk"]);
+            CanJump = true;
+        }
     }
     //////////////////////////////////////////////////
 
@@ -181,10 +196,6 @@ public class Player : MonoBehaviour
         currentAnimation = name;
         ani.Play(GetAnimaionName(name));
     }
-
-    public void SetAnimationBool(string aniName, bool b) => ani.SetBool(aniName, b);
-
-    public void SetAnimationTrigger(string aniName) => ani.SetTrigger(aniName);
 
     public void SetSpeed(float s) => this.speed = s;
 
