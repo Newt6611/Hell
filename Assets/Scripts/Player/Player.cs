@@ -35,6 +35,10 @@ public class Player : MonoBehaviour
 
     private AniamtionName currentAnimation;
 
+    private float maxHealth;
+    private float helth;
+    public float mana;
+
     // Layer
     [SerializeField] private LayerMask walkableLayer;
     public LayerMask WalkableLayer { get { return walkableLayer; } }
@@ -58,6 +62,9 @@ public class Player : MonoBehaviour
         faceRight = true;
         CanJump = true;
         CanAttack = true;
+
+        helth = 100;
+        mana = 100;
 
         // Init StateCache
         stateCache = new Dictionary<string, IPlayerState>()
