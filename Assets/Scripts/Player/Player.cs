@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
     private void Start() 
     {
         // Components
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponentInChildren<Rigidbody2D>();
         ani = GetComponentInChildren<Animator>();
 
         // Init Values

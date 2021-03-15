@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerBehavior : MonoBehaviour
 {
     private Player player;
 
@@ -18,5 +18,10 @@ public class PlayerAttack : MonoBehaviour
         if(!player.CanAttack)
             player.GroundDetection();
         player.SetState(player.GetStateCache()["idle"]);
+    }
+
+    public void Jump()
+    {
+        player.rb.velocity = new Vector2(player.rb.velocity.x, Vector2.up.y * player.JumpForce);
     }
 }

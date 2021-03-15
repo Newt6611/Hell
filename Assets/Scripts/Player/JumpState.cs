@@ -14,7 +14,6 @@ public class JumpState : IPlayerState
     public override void OnEntry()
     {
         player.PlayAnimation(AniamtionName.jump);
-        Jump();
         player.CanJump = false;
     }
 
@@ -31,10 +30,5 @@ public class JumpState : IPlayerState
 
     public override void OnExit() 
     {
-    }
-
-    public void Jump()
-    {
-        player.rb.velocity = new Vector2(player.rb.velocity.x, Vector2.up.y * player.JumpForce);
     }
 }
