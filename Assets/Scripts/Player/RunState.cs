@@ -13,7 +13,7 @@ public class RunState : IPlayerState
 
     public override void OnEntry()
     {
-        player.SetAnimationBool("isRun", true);
+        player.PlayAnimation(AniamtionName.run);
         player.SetSpeed(player.RunSpeed);
     }
 
@@ -33,7 +33,6 @@ public class RunState : IPlayerState
 
     public override void OnExit()
     {
-        player.SetAnimationBool("isRun", false);
         if(player.MovementX == 0)
         {
             player.IsRun = false;

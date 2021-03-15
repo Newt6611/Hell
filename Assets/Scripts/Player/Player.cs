@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum AniamtionName
+{
+    idle, walk, run, jump, attack
+}
+
 public class Player : MonoBehaviour
 {
     // Movement
@@ -22,9 +27,13 @@ public class Player : MonoBehaviour
 
     private bool faceRight = true;
     public bool IsRun { get; set; }
+    public bool CanJump { get; set; }
+    public bool CanAttack { get; set; }
 
     [SerializeField] private Transform jumpPos;
     public Transform JumpPosition { get { return jumpPos; } }
+
+    private AniamtionName currentAnimation;
 
     // Layer
     [SerializeField] private LayerMask walkableLayer;
@@ -47,6 +56,8 @@ public class Player : MonoBehaviour
 
         // Init Values
         faceRight = true;
+        CanJump = true;
+        CanAttack = true;
 
         // Init StateCache
         stateCache = new Dictionary<string, IPlayerState>()
@@ -107,11 +118,13 @@ public class Player : MonoBehaviour
 
     private void JumpAction()
     {
-        SetState(stateCache["jump"]);
+        if(CanJump)
+            SetState(stateCache["jump"]);
     }
 
     private void AttackAction()
     {
+        CanAttack = false;
         SetState(stateCache["attack"]);
     }
 
@@ -123,11 +136,6 @@ public class Player : MonoBehaviour
     private void OnControlsChanged()
     {
         // Todo
-    }
-
-    public void AAAAaAttack()
-    {
-        Debug.Log("Attack From Player");
     }
 
 
@@ -151,6 +159,20 @@ public class Player : MonoBehaviour
         scale.x *= -1;
         transform.localScale = scale;
     }
+
+    public void GroundDetection()
+    {
+        if(Physics2D.OverlapCircle(JumpPosition.position, 0.3f, WalkableLayer) && !CanJump)
+        {
+            if(MovementX == 0)
+                SetState(GetStateCache()["idle"]);
+            else if(IsRun)
+                SetState(GetStateCache()["run"]);
+            else if(!IsRun)
+                SetState(GetStateCache()["walk"]);
+            CanJump = true;
+        }
+    }
     //////////////////////////////////////////////////
 
 
@@ -166,11 +188,35 @@ public class Player : MonoBehaviour
     }
     
 
-    public void SetAnimationBool(string aniName, bool b) => ani.SetBool(aniName, b);
+    public void PlayAnimation(AniamtionName name)
+    {
+        if(currentAnimation == name)
+            return;
 
-    public void SetAnimationTrigger(string aniName) => ani.SetTrigger(aniName);
+        currentAnimation = name;
+        ani.Play(GetAnimaionName(name));
+    }
 
     public void SetSpeed(float s) => this.speed = s;
 
     public Dictionary<string, IPlayerState> GetStateCache() => stateCache;
+
+    private string GetAnimaionName(AniamtionName name) 
+    {
+        switch(name)
+        {
+            case AniamtionName.idle:
+                return "idle";
+            case AniamtionName.walk:
+                return "walk";
+            case AniamtionName.run:
+                return "run";
+            case AniamtionName.jump:
+                return "jump";
+            case AniamtionName.attack:
+                return "attack";
+            default:
+                return "idle";
+        }
+    }
 }

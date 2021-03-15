@@ -13,7 +13,7 @@ public class AttackState : IPlayerState
 
     public override void OnEntry()
     {
-        player.SetAnimationTrigger("attack");
+        player.PlayAnimation(AniamtionName.attack);
     }
 
     public override void OnUpdate()
@@ -22,9 +22,12 @@ public class AttackState : IPlayerState
 
     public override void OnFixedUpdate()
     {
+        player.GroundDetection();
     }
 
     public override void OnExit()
     {
+        player.CanJump = true;
+        player.CanAttack = true;
     }
 }

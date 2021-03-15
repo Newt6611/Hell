@@ -14,7 +14,7 @@ public class WalkState : IPlayerState
     public override void OnEntry()
     {
         player.SetSpeed(player.WalkSpeed);
-        player.SetAnimationBool("isWalk", true);
+        player.PlayAnimation(AniamtionName.walk);
     }
 
     public override void OnUpdate()
@@ -33,6 +33,5 @@ public class WalkState : IPlayerState
 
     public override void OnExit()
     {
-        player.SetAnimationBool("isWalk", false);
     }
 }
