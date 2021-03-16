@@ -15,6 +15,7 @@ public class IdleState : IPlayerState
     {
         player.SetSpeed(0);
         player.PlayAnimation(AniamtionName.idle);
+        player.SetPhysicsFriction(true);
     }
 
     public override void OnUpdate()

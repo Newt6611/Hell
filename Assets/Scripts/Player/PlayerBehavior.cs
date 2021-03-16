@@ -31,13 +31,21 @@ public class PlayerBehavior : MonoBehaviour
             collider.GetComponent<DogAndCat>().TakeDamage(1);
             player.mana -= 10;
         }
+    }
 
+    public void EndAttack()
+    {
         player.SetState(player.GetStateCache()["idle"]);
     }
 
     public void Jump()
     {
-        player.rb.velocity = new Vector2(player.rb.velocity.x, Vector2.up.y * player.JumpForce);
+        player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
+    }
+
+    public void EndJump()
+    {
+        player.GroundDetection();
     }
 
     private void OnDrawGizmos()

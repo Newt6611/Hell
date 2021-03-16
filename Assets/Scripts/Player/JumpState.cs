@@ -15,6 +15,11 @@ public class JumpState : IPlayerState
     {
         player.PlayAnimation(AniamtionName.jump);
         player.CanJump = false;
+
+        if(!player.IsRun)
+            player.SetSpeed(player.WalkSpeed);
+        else
+            player.SetSpeed(player.RunSpeed);
     }
 
     public override void OnUpdate() 

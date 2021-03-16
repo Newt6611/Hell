@@ -14,6 +14,7 @@ public class AttackState : IPlayerState
     public override void OnEntry()
     {
         player.PlayAnimation(AniamtionName.attack);
+        player.trail.enabled = true;
     }
 
     public override void OnUpdate()
@@ -29,5 +30,6 @@ public class AttackState : IPlayerState
     {
         player.CanJump = true;
         player.CanAttack = true;
+        player.trail.enabled = false;
     }
 }

@@ -15,6 +15,7 @@ public class WalkState : IPlayerState
     {
         player.SetSpeed(player.WalkSpeed);
         player.PlayAnimation(AniamtionName.walk);
+        player.SetPhysicsFriction(false);
     }
 
     public override void OnUpdate()

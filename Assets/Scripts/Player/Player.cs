@@ -39,6 +39,10 @@ public class Player : MonoBehaviour
     private float helth;
     public float mana;
 
+    
+    [SerializeField] private PhysicsMaterial2D friction;
+    [SerializeField] private PhysicsMaterial2D nonFriction;
+
     // Layer
     [SerializeField] private LayerMask walkableLayer;
     public LayerMask WalkableLayer { get { return walkableLayer; } }
@@ -50,6 +54,8 @@ public class Player : MonoBehaviour
     // Components
     public Rigidbody2D rb { get; private set; }
     public Animator ani { get; private set; }
+    public TrailRenderer trail { get; set; }
+
     [SerializeField] private InputReader inputReader;
 
     private void Start() 
@@ -57,6 +63,7 @@ public class Player : MonoBehaviour
         // Components
         rb = GetComponentInChildren<Rigidbody2D>();
         ani = GetComponentInChildren<Animator>();
+        trail = GetComponentInChildren<TrailRenderer>();
 
         // Init Values
         faceRight = true;
@@ -104,6 +111,7 @@ public class Player : MonoBehaviour
     private void Update() 
     {
         state.OnUpdate();
+        Debug.Log(CanJump);
     }
 
     private void FixedUpdate() 
@@ -201,12 +209,21 @@ public class Player : MonoBehaviour
             return;
 
         currentAnimation = name;
-        ani.Play(GetAnimaionName(name));
+        ani.CrossFade(GetAnimaionName(name), 0.01f);
+        //ani.Play(GetAnimaionName(name));
     }
 
     public void SetSpeed(float s) => this.speed = s;
 
     public Dictionary<string, IPlayerState> GetStateCache() => stateCache;
+
+    public void SetPhysicsFriction(bool f)
+    {
+        if(f)
+            rb.sharedMaterial = friction;
+        else
+            rb.sharedMaterial = nonFriction;
+    }
 
     private string GetAnimaionName(AniamtionName name) 
     {
@@ -226,4 +243,5 @@ public class Player : MonoBehaviour
                 return "idle";
         }
     }
+
 }

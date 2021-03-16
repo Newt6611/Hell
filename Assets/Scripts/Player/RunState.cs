@@ -15,6 +15,7 @@ public class RunState : IPlayerState
     {
         player.PlayAnimation(AniamtionName.run);
         player.SetSpeed(player.RunSpeed);
+        player.SetPhysicsFriction(false);
     }
 
     public override void OnUpdate()
