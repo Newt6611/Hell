@@ -20,6 +20,7 @@ public class DogAndCat : MonoBehaviour
     [SerializeField] SceneOneEnemyType type;
 
     [SerializeField] private SceneOneEnemyState current_state;
+    private SceneOneEnemyState last_state;
 
     private float power;
     private float health;
@@ -34,12 +35,26 @@ public class DogAndCat : MonoBehaviour
         ani = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
-        current_state = SceneOneEnemyState.Walk;
-
+        current_state = SceneOneEnemyState.Idle;
+        last_state = current_state;
         InitValue();
     }
 
     private void Update() 
+    {
+        StateMachine();
+    }
+
+    private void FixedUpdate()
+    {
+        /*
+        Vector2 vel = rb.velocity;
+        vel.x *= speed * Time.fixedDeltaTime;
+        rb.velocity = vel;
+        */
+    }
+
+    private void StateMachine()
     {
         // Bad State Design
         switch(current_state)
@@ -54,15 +69,6 @@ public class DogAndCat : MonoBehaviour
                 AttackState();
                 break;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        /*
-        Vector2 vel = rb.velocity;
-        vel.x *= speed * Time.fixedDeltaTime;
-        rb.velocity = vel;
-        */
     }
 
     private void IdleState()
@@ -83,7 +89,7 @@ public class DogAndCat : MonoBehaviour
     private void CheckState(SceneOneEnemyState state)
     {
         // Check Animation State
-        if(current_state != state)
+        if(last_state != state)
         {
             PlayAnimation(state);
         }
@@ -91,8 +97,7 @@ public class DogAndCat : MonoBehaviour
 
     private void PlayAnimation(SceneOneEnemyState state)
     {
-        Debug.Log("Play");
-        current_state = state;
+        last_state = current_state;
         ani.CrossFade(GetAnimaionName(current_state), 0.01f);
     }
 
