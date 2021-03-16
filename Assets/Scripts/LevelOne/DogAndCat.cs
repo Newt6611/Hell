@@ -7,6 +7,11 @@ public enum SceneOneEnemyType
     Dog, DarkDog, Cat, DarkCat
 }
 
+public enum SceneOneEnemyState
+{
+    Idle, Walk, Attack
+}
+
 public class DogAndCat : MonoBehaviour
 {
     private Animator ani;
@@ -14,29 +19,96 @@ public class DogAndCat : MonoBehaviour
 
     [SerializeField] SceneOneEnemyType type;
 
+    [SerializeField] private SceneOneEnemyState current_state;
+
     private float power;
     private float health;
 
 
-
     [SerializeField] private float speed;
-    
     
     private bool faceRight = false;
 
-    void Start() 
+    private void Start()
     {
         ani = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
+        current_state = SceneOneEnemyState.Walk;
+
         InitValue();
     }
 
-    void FixedUpdate()
+    private void Update() 
     {
+        // Bad State Design
+        switch(current_state)
+        {
+            case SceneOneEnemyState.Idle:
+                IdleState();
+                break;
+            case SceneOneEnemyState.Walk:
+                WalkState();
+                break;
+            case SceneOneEnemyState.Attack:
+                AttackState();
+                break;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        /*
         Vector2 vel = rb.velocity;
         vel.x *= speed * Time.fixedDeltaTime;
         rb.velocity = vel;
+        */
+    }
+
+    private void IdleState()
+    {
+        CheckState(SceneOneEnemyState.Idle);
+    }
+
+    private void WalkState()
+    {
+        CheckState(SceneOneEnemyState.Walk);
+    }
+
+    private void AttackState()
+    {
+        CheckState(SceneOneEnemyState.Attack);
+    }
+
+    private void CheckState(SceneOneEnemyState state)
+    {
+        // Check Animation State
+        if(current_state != state)
+        {
+            PlayAnimation(state);
+        }
+    }
+
+    private void PlayAnimation(SceneOneEnemyState state)
+    {
+        Debug.Log("Play");
+        current_state = state;
+        ani.CrossFade(GetAnimaionName(current_state), 0.01f);
+    }
+
+    private string GetAnimaionName(SceneOneEnemyState state) 
+    {
+        switch(state)
+        {
+            case SceneOneEnemyState.Idle:
+                return "idle";
+            case SceneOneEnemyState.Walk:
+                return "walk";
+            case SceneOneEnemyState.Attack:
+                return "attack";
+            default:
+                return "idle";
+        }
     }
 
     public void TakeDamage(int d) 

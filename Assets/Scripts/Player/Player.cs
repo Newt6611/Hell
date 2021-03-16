@@ -111,7 +111,6 @@ public class Player : MonoBehaviour
     private void Update() 
     {
         state.OnUpdate();
-        Debug.Log(CanJump);
     }
 
     private void FixedUpdate() 
@@ -210,7 +209,6 @@ public class Player : MonoBehaviour
 
         currentAnimation = name;
         ani.CrossFade(GetAnimaionName(name), 0.01f);
-        //ani.Play(GetAnimaionName(name));
     }
 
     public void SetSpeed(float s) => this.speed = s;

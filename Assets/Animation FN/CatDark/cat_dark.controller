@@ -37,22 +37,22 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -728770871284484513}
-    m_Position: {x: 100, y: 240, z: 0}
+    m_Position: {x: -50, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -9200377996990091782}
-    m_Position: {x: 440, y: -20, z: 0}
+    m_Position: {x: 410, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6891926897247489430}
-    m_Position: {x: 450, y: 60, z: 0}
+    m_Position: {x: 410, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4819214060406843781}
-    m_Position: {x: 150, y: 140, z: 0}
+    m_Position: {x: 160, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6566099827472758805}
-    m_Position: {x: 410, y: 220, z: 0}
+    m_Position: {x: 160, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3499269297259735041}
-    m_Position: {x: 375, y: 325, z: 0}
+    m_Position: {x: 410, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1155907208135862813}
     m_Position: {x: 410, y: 390, z: 0}
@@ -173,12 +173,10 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CatDark Idle01
+  m_Name: idle
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: 9137953639725413728}
-  - {fileID: -1010829609058044153}
+  m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -223,7 +221,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CatDark Walk
+  m_Name: walk
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -249,7 +247,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CatDark Attack
+  m_Name: attack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
