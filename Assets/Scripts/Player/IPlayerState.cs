@@ -11,4 +11,6 @@ public abstract class IPlayerState : MonoBehaviour
     public abstract void OnFixedUpdate();
 
     public abstract void OnExit();
+
+    public abstract void PrintName();
 }

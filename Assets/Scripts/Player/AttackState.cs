@@ -5,10 +5,12 @@ using UnityEngine;
 public class AttackState : IPlayerState
 {
     private Player player;
+    private string state_name;
 
-    public AttackState(Player player)
+    public AttackState(Player player, string name)
     {
         this.player = player;
+        state_name = name;
     }
 
     public override void OnEntry()
@@ -31,5 +33,10 @@ public class AttackState : IPlayerState
         player.CanJump = true;
         player.CanAttack = true;
         player.trail.enabled = false;
+    }
+
+    public override void PrintName()
+    {
+        Debug.Log(state_name);
     }
 }

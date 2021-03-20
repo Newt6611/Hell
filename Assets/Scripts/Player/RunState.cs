@@ -5,10 +5,12 @@ using UnityEngine;
 public class RunState : IPlayerState
 {
     private Player player;
+    private string state_name;
 
-    public RunState(Player player) 
+    public RunState(Player player, string name) 
     {
         this.player = player;
+        state_name = name;
     }
 
     public override void OnEntry()
@@ -38,5 +40,10 @@ public class RunState : IPlayerState
         {
             player.IsRun = false;
         }
+    }
+
+    public override void PrintName()
+    {
+        Debug.Log(state_name);
     }
 }
