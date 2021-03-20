@@ -27,8 +27,7 @@ public class PlayerBehavior : MonoBehaviour
         Collider2D collider = Physics2D.OverlapCircle(attackPos.position, attackRadius, enemyLayer);
         if(collider)
         {
-            Debug.Log("s");
-            collider.GetComponent<DogAndCat>().TakeDamage(1);
+            collider.GetComponent<Enemy>().TakeDamage(1);
             player.mana -= 10;
         }
     }

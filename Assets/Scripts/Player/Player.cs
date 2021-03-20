@@ -10,6 +10,9 @@ public enum AniamtionName
 
 public class Player : MonoBehaviour
 {
+    private static Player _instance;
+    public static Player Instance { get { return _instance; } }
+
     // Movement
     [SerializeField] private float walkSpeed;
     public float WalkSpeed { get {return walkSpeed; } }
@@ -36,7 +39,7 @@ public class Player : MonoBehaviour
     private AniamtionName currentAnimation;
 
     private float maxHealth;
-    private float helth;
+    private float health;
     public float mana;
 
     
@@ -58,6 +61,14 @@ public class Player : MonoBehaviour
 
     [SerializeField] private InputReader inputReader;
 
+    private void Awake()
+    {
+        if(_instance != null && _instance != this)
+            Destroy(this.gameObject);
+        else
+            _instance = this;
+    }
+
     private void Start() 
     {
         // Components
@@ -70,7 +81,7 @@ public class Player : MonoBehaviour
         CanJump = true;
         CanAttack = true;
 
-        helth = 100;
+        health = 100;
         mana = 100;
 
         // Init StateCache
@@ -186,6 +197,12 @@ public class Player : MonoBehaviour
                 SetState(GetStateCache()["walk"]);
             CanJump = true;
         }
+    }
+
+    public void TakeDamage(int d)
+    {
+        //health -= d;
+        Debug.Log("Player Damaged");
     }
     //////////////////////////////////////////////////
 

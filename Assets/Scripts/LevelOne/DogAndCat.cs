@@ -45,15 +45,6 @@ public class DogAndCat : MonoBehaviour
         StateMachine();
     }
 
-    private void FixedUpdate()
-    {
-        /*
-        Vector2 vel = rb.velocity;
-        vel.x *= speed * Time.fixedDeltaTime;
-        rb.velocity = vel;
-        */
-    }
-
     private void StateMachine()
     {
         // Bad State Design
