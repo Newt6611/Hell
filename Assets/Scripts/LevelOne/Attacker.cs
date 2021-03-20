@@ -13,7 +13,6 @@ public class Attacker : MonoBehaviour
     
     [SerializeField] private bool showGizmos;
     [SerializeField] private SceneOneType type;
-    [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Transform attackPos;
     [SerializeField] private float attackRadius;
 
@@ -23,7 +22,7 @@ public class Attacker : MonoBehaviour
         {
             case SceneOneType.cat:
                 SceneOneCat cat = parent.GetComponent<SceneOneCat>();
-                if(Physics2D.OverlapCircle(attackPos.position, attackRadius, playerLayer))
+                if(Physics2D.OverlapCircle(attackPos.position, attackRadius, Player.Instance.playerLayer))
                 {
                     Player.Instance.TakeDamage(cat.power);
                 }

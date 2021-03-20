@@ -5,10 +5,12 @@ using UnityEngine;
 public class WalkState : IPlayerState
 {
     private Player player;
+    private string state_name;
 
-    public WalkState(Player player) 
+    public WalkState(Player player, string name) 
     {
         this.player = player;
+        state_name = name;
     }
 
     public override void OnEntry()
@@ -34,5 +36,10 @@ public class WalkState : IPlayerState
 
     public override void OnExit()
     {
+    }
+
+    public override void PrintName()
+    {
+        Debug.Log(state_name);
     }
 }

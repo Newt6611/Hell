@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 enum CatBehavior 
 {
@@ -9,13 +10,11 @@ enum CatBehavior
 
 public class SceneOneCat : MonoBehaviour, Enemy
 {
-    [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float speed;
-
     public int power;
     [SerializeField] private int health;
 
-    private bool faceRight = false;
+    private bool faceRight = true;
 
     private CatBehavior current_state;
     private CatBehavior last_state;
@@ -53,19 +52,15 @@ public class SceneOneCat : MonoBehaviour, Enemy
         {
             case CatBehavior.idle:
                 Idle();
-                Debug.Log("idle");
                 break;
             case CatBehavior.run:
                 Run();
-                Debug.Log("run");
                 break;
             case CatBehavior.clean:
                 Clean();
-                Debug.Log("clean");
                 break;
             case CatBehavior.attack:
                 Attack();
-                Debug.Log("attack");
                 break;
         }
 
@@ -94,12 +89,12 @@ public class SceneOneCat : MonoBehaviour, Enemy
         }
 
         // Do Behavior
-        if(Physics2D.OverlapCircle(transform.position, attackRadius, playerLayer))
+        if(Physics2D.OverlapCircle(transform.position, attackRadius, Player.Instance.playerLayer))
         {
             if(canAttack)
                 current_state = CatBehavior.attack;
         }
-        else if(Physics2D.OverlapCircle(transform.position, findPlayerRaidius, playerLayer))
+        else if(Physics2D.OverlapCircle(transform.position, findPlayerRaidius, Player.Instance.playerLayer))
         {
             current_state = CatBehavior.run;
         }
@@ -122,12 +117,12 @@ public class SceneOneCat : MonoBehaviour, Enemy
         }
 
         // Do Behavior
-        if(Physics2D.OverlapCircle(transform.position, attackRadius, playerLayer))
+        if(Physics2D.OverlapCircle(transform.position, attackRadius, Player.Instance.playerLayer))
         {
             if(canAttack)
                 current_state = CatBehavior.attack;
         }
-        else if(!Physics2D.OverlapCircle(transform.position, findPlayerRaidius, playerLayer))
+        else if(!Physics2D.OverlapCircle(transform.position, findPlayerRaidius, Player.Instance.playerLayer))
         {
             current_state = CatBehavior.idle;
         }
@@ -154,7 +149,7 @@ public class SceneOneCat : MonoBehaviour, Enemy
             PlayAnimation("clean");   
         }
 
-        if(Physics2D.OverlapCircle(transform.position, findPlayerRaidius, playerLayer))
+        if(Physics2D.OverlapCircle(transform.position, findPlayerRaidius, Player.Instance.playerLayer))
         {
             current_state = CatBehavior.run;
         }
@@ -197,7 +192,7 @@ public class SceneOneCat : MonoBehaviour, Enemy
 
     private void PlayAnimation(string animationName) 
     {
-        ani.CrossFade(animationName, 0.2f);
+        ani.CrossFade(animationName, 0.1f);
     }
 
     public void TakeDamage(int d) 
@@ -219,9 +214,10 @@ public class SceneOneCat : MonoBehaviour, Enemy
     private void Flip()
     {
         faceRight = !faceRight;
-        Vector2 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        if(!faceRight)
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        else
+            transform.eulerAngles = Vector3.zero;
     }
 
     private void OnDrawGizmos()

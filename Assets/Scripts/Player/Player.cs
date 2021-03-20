@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     private static Player _instance;
     public static Player Instance { get { return _instance; } }
 
+    [SerializeField] private bool showGizmos;
+
+
     // Movement
     [SerializeField] private float walkSpeed;
     public float WalkSpeed { get {return walkSpeed; } }
@@ -47,6 +50,7 @@ public class Player : MonoBehaviour
     [SerializeField] private PhysicsMaterial2D nonFriction;
 
     // Layer
+    [SerializeField] public LayerMask playerLayer { get; private set; }
     [SerializeField] private LayerMask walkableLayer;
     public LayerMask WalkableLayer { get { return walkableLayer; } }
 
@@ -84,14 +88,16 @@ public class Player : MonoBehaviour
         health = 100;
         mana = 100;
 
+        playerLayer = LayerMask.GetMask("Player");
+
         // Init StateCache
         stateCache = new Dictionary<string, IPlayerState>()
         {
-            ["idle"] = new IdleState(this),
-            ["walk"] = new WalkState(this),
-            ["run"] = new RunState(this),
-            ["jump"] = new JumpState(this),
-            ["attack"] = new AttackState(this)
+            ["idle"] = new IdleState(this, "Player Idle"),
+            ["walk"] = new WalkState(this, "Player Walk"),
+            ["run"] = new RunState(this, "Player Run"),
+            ["jump"] = new JumpState(this, "Player Jump"),
+            ["attack"] = new AttackState(this, "Player Attack")
         };
 
         // Begin Character State
@@ -122,6 +128,10 @@ public class Player : MonoBehaviour
     private void Update() 
     {
         state.OnUpdate();
+        state.PrintName();
+
+        if(!CanJump)
+            GroundDetection();
     }
 
     private void FixedUpdate() 
@@ -204,6 +214,14 @@ public class Player : MonoBehaviour
         //health -= d;
         Debug.Log("Player Damaged");
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(LayerMask.LayerToName(collision.gameObject.layer) == "Walkable")     
+        {
+            CanJump = true;
+        }
+    }
     //////////////////////////////////////////////////
 
 
@@ -256,6 +274,15 @@ public class Player : MonoBehaviour
                 return "attack";
             default:
                 return "idle";
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(showGizmos)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(JumpPosition.position, 0.3f);
         }
     }
 
