@@ -5,22 +5,23 @@ using UnityEngine;
 public class JumpState : IPlayerState
 {
     private Player player;
-    private bool canJump;
+    private string state_name;
 
-    public JumpState(Player player)
+    public JumpState(Player player, string name)
     {
         this.player = player;
-        canJump = true;
+        state_name = name;
     }
 
     public override void OnEntry()
     {
-        if(canJump)
-        {
-            player.SetAnimationBool("jump", true);
-            Jump();
-            canJump = false;
-        }
+        player.PlayAnimation(AniamtionName.jump);
+        player.CanJump = false;
+
+        if(!player.IsRun)
+            player.SetSpeed(player.WalkSpeed);
+        else
+            player.SetSpeed(player.RunSpeed);
     }
 
     public override void OnUpdate() 
@@ -31,27 +32,15 @@ public class JumpState : IPlayerState
     public override void OnFixedUpdate()
     {
         player.Movement();
-
-        if(Physics2D.OverlapCircle(player.JumpPosition.position, 0.3f, player.WalkableLayer) && !canJump)
-        {
-            if(player.MovementX == 0)
-                player.SetState(player.GetStateCache()["idle"]);
-            else if(player.IsRun)
-                player.SetState(player.GetStateCache()["run"]);
-            else if(!player.IsRun)
-                player.SetState(player.GetStateCache()["walk"]);
-            canJump = true;
-        }
+        //player.GroundDetection();
     }
 
     public override void OnExit() 
     {
-        player.SetAnimationBool("jump", false);
     }
 
-    public void Jump()
+    public override void PrintName()
     {
-        //player.rb.AddForce(Vector2.up * player.JumpForce, ForceMode2D.Impulse);
-        player.rb.velocity = new Vector2(player.rb.velocity.x, Vector2.up.y * player.JumpForce);
+        Debug.Log(state_name);
     }
 }

@@ -5,15 +5,19 @@ using UnityEngine;
 public class IdleState : IPlayerState
 {
     private Player player;
+    private string state_name;
 
-    public IdleState(Player player)
+    public IdleState(Player player, string name)
     {
         this.player = player;
+        state_name = name;
     }
 
     public override void OnEntry()
     {
         player.SetSpeed(0);
+        player.PlayAnimation(AniamtionName.idle);
+        player.SetPhysicsFriction(true);
     }
 
     public override void OnUpdate()
@@ -32,5 +36,10 @@ public class IdleState : IPlayerState
     public override void OnExit()
     {
         
+    }
+
+    public override void PrintName()
+    {
+        Debug.Log(state_name);
     }
 }

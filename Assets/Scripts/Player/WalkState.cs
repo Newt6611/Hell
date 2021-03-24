@@ -5,16 +5,19 @@ using UnityEngine;
 public class WalkState : IPlayerState
 {
     private Player player;
+    private string state_name;
 
-    public WalkState(Player player) 
+    public WalkState(Player player, string name) 
     {
         this.player = player;
+        state_name = name;
     }
 
     public override void OnEntry()
     {
         player.SetSpeed(player.WalkSpeed);
-        player.SetAnimationBool("isWalk", true);
+        player.PlayAnimation(AniamtionName.walk);
+        player.SetPhysicsFriction(false);
     }
 
     public override void OnUpdate()
@@ -33,6 +36,10 @@ public class WalkState : IPlayerState
 
     public override void OnExit()
     {
-        player.SetAnimationBool("isWalk", false);
+    }
+
+    public override void PrintName()
+    {
+        Debug.Log(state_name);
     }
 }

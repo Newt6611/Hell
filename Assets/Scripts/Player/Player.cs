@@ -3,8 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum AniamtionName
+{
+    idle, walk, run, jump, attack
+}
+
 public class Player : MonoBehaviour
 {
+    private static Player _instance;
+    public static Player Instance { get { return _instance; } }
+
+    [SerializeField] private bool showGizmos;
+
+
     // Movement
     [SerializeField] private float walkSpeed;
     public float WalkSpeed { get {return walkSpeed; } }
@@ -22,11 +33,24 @@ public class Player : MonoBehaviour
 
     private bool faceRight = true;
     public bool IsRun { get; set; }
+    public bool CanJump { get; set; }
+    public bool CanAttack { get; set; }
 
     [SerializeField] private Transform jumpPos;
     public Transform JumpPosition { get { return jumpPos; } }
 
+    private AniamtionName currentAnimation;
+
+    private float maxHealth;
+    private float health;
+    public float mana;
+
+    
+    [SerializeField] private PhysicsMaterial2D friction;
+    [SerializeField] private PhysicsMaterial2D nonFriction;
+
     // Layer
+    [SerializeField] public LayerMask playerLayer { get; private set; }
     [SerializeField] private LayerMask walkableLayer;
     public LayerMask WalkableLayer { get { return walkableLayer; } }
 
@@ -37,25 +61,43 @@ public class Player : MonoBehaviour
     // Components
     public Rigidbody2D rb { get; private set; }
     public Animator ani { get; private set; }
+    public TrailRenderer trail { get; set; }
+
     [SerializeField] private InputReader inputReader;
+
+    private void Awake()
+    {
+        if(_instance != null && _instance != this)
+            Destroy(this.gameObject);
+        else
+            _instance = this;
+    }
 
     private void Start() 
     {
         // Components
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponentInChildren<Rigidbody2D>();
         ani = GetComponentInChildren<Animator>();
+        trail = GetComponentInChildren<TrailRenderer>();
 
         // Init Values
         faceRight = true;
+        CanJump = true;
+        CanAttack = true;
+
+        health = 100;
+        mana = 100;
+
+        playerLayer = LayerMask.GetMask("Player");
 
         // Init StateCache
         stateCache = new Dictionary<string, IPlayerState>()
         {
-            ["idle"] = new IdleState(this),
-            ["walk"] = new WalkState(this),
-            ["run"] = new RunState(this),
-            ["jump"] = new JumpState(this),
-            ["attack"] = new AttackState(this)
+            ["idle"] = new IdleState(this, "Player Idle"),
+            ["walk"] = new WalkState(this, "Player Walk"),
+            ["run"] = new RunState(this, "Player Run"),
+            ["jump"] = new JumpState(this, "Player Jump"),
+            ["attack"] = new AttackState(this, "Player Attack")
         };
 
         // Begin Character State
@@ -86,6 +128,10 @@ public class Player : MonoBehaviour
     private void Update() 
     {
         state.OnUpdate();
+        state.PrintName();
+
+        if(!CanJump)
+            GroundDetection();
     }
 
     private void FixedUpdate() 
@@ -107,11 +153,13 @@ public class Player : MonoBehaviour
 
     private void JumpAction()
     {
-        SetState(stateCache["jump"]);
+        if(CanJump)
+            SetState(stateCache["jump"]);
     }
 
     private void AttackAction()
     {
+        CanAttack = false;
         SetState(stateCache["attack"]);
     }
 
@@ -123,11 +171,6 @@ public class Player : MonoBehaviour
     private void OnControlsChanged()
     {
         // Todo
-    }
-
-    public void AAAAaAttack()
-    {
-        Debug.Log("Attack From Player");
     }
 
 
@@ -151,6 +194,34 @@ public class Player : MonoBehaviour
         scale.x *= -1;
         transform.localScale = scale;
     }
+
+    public void GroundDetection()
+    {
+        if(Physics2D.OverlapCircle(JumpPosition.position, 0.3f, WalkableLayer) && !CanJump)
+        {
+            if(MovementX == 0)
+                SetState(GetStateCache()["idle"]);
+            else if(IsRun)
+                SetState(GetStateCache()["run"]);
+            else if(!IsRun)
+                SetState(GetStateCache()["walk"]);
+            CanJump = true;
+        }
+    }
+
+    public void TakeDamage(int d)
+    {
+        //health -= d;
+        Debug.Log("Player Damaged");
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(LayerMask.LayerToName(collision.gameObject.layer) == "Walkable")     
+        {
+            CanJump = true;
+        }
+    }
     //////////////////////////////////////////////////
 
 
@@ -166,11 +237,53 @@ public class Player : MonoBehaviour
     }
     
 
-    public void SetAnimationBool(string aniName, bool b) => ani.SetBool(aniName, b);
+    public void PlayAnimation(AniamtionName name)
+    {
+        if(currentAnimation == name)
+            return;
 
-    public void SetAnimationTrigger(string aniName) => ani.SetTrigger(aniName);
+        currentAnimation = name;
+        ani.CrossFade(GetAnimaionName(name), 0.01f);
+    }
 
     public void SetSpeed(float s) => this.speed = s;
 
     public Dictionary<string, IPlayerState> GetStateCache() => stateCache;
+
+    public void SetPhysicsFriction(bool f)
+    {
+        if(f)
+            rb.sharedMaterial = friction;
+        else
+            rb.sharedMaterial = nonFriction;
+    }
+
+    private string GetAnimaionName(AniamtionName name) 
+    {
+        switch(name)
+        {
+            case AniamtionName.idle:
+                return "idle";
+            case AniamtionName.walk:
+                return "walk";
+            case AniamtionName.run:
+                return "run";
+            case AniamtionName.jump:
+                return "jump";
+            case AniamtionName.attack:
+                return "attack";
+            default:
+                return "idle";
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(showGizmos)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(JumpPosition.position, 0.3f);
+        }
+    }
+
 }
