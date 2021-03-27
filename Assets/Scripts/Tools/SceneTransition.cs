@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class SceneTransition : MonoBehaviour
 {
-    // This's for scene trasition in same scene
-    // This's not for scene load
+    // This's for scene trasition in same scene not for scene loading
 
     [SerializeField] private GameObject virtualCam;
 
