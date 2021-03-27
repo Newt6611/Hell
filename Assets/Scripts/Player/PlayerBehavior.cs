@@ -44,7 +44,7 @@ public class PlayerBehavior : MonoBehaviour
 
     public void EndJump()
     {
-        player.GroundDetection();
+        player.EndJumpState();
     }
 
     private void OnDrawGizmos()

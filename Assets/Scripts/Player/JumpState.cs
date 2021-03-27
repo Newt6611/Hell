@@ -16,7 +16,7 @@ public class JumpState : IPlayerState
     public override void OnEntry()
     {
         player.PlayAnimation(AniamtionName.jump);
-        player.CanJump = false;
+        player.IsJumping = true;
 
         if(!player.IsRun)
             player.SetSpeed(player.WalkSpeed);
@@ -32,11 +32,16 @@ public class JumpState : IPlayerState
     public override void OnFixedUpdate()
     {
         player.Movement();
-        //player.GroundDetection();
     }
 
     public override void OnExit() 
     {
+        if(player.IsJumping)
+        {
+            player.IsJumping = false;
+            
+            player.EndJumpState();
+        }
     }
 
     public override void PrintName()
