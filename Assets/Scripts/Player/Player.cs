@@ -236,6 +236,10 @@ public class Player : MonoBehaviour
         this.state.OnEntry();       
     }
     
+    public void SetTransform(Vector2 position)
+    {
+        transform.position = position;
+    }
 
     public void PlayAnimation(AniamtionName name)
     {

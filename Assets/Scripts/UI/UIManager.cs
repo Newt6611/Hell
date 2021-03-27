@@ -11,11 +11,24 @@ public class UIManager : MonoBehaviour
     [SerializeField] private LoadSceneEventSO loadSceneEvent;
     [SerializeField] private VoidGameEventSO continueGame_channel;
 
+    [SerializeField] private PlayerSceneTransitionSO fadeInOut;
+
     [Header("Scenes")]
     [SerializeField] private GameSceneSO[] main_menu;
 
 
     [SerializeField] private InputReader inputReader;
+
+    private Animator animator;
+
+
+    // Temps
+    private Vector2 playerNextPosition;
+
+    private void Start() 
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void OnEnable() 
     {
@@ -23,6 +36,8 @@ public class UIManager : MonoBehaviour
         inputReader.exitMenuEvent += PauseActoin;
 
         continueGame_channel.eventRaised += ContinueGame;
+
+        fadeInOut.request += FadeIn;
     }
 
     private void OnDisable() 
@@ -31,6 +46,7 @@ public class UIManager : MonoBehaviour
         inputReader.exitMenuEvent -= PauseActoin;
 
         continueGame_channel.eventRaised -= ContinueGame;
+        fadeInOut.request -= FadeIn;
     }
 
     private void PauseActoin()
@@ -72,5 +88,26 @@ public class UIManager : MonoBehaviour
     private void ClosePausePanel()
     {
         PausePanel.SetActive(false);
+    }
+
+
+    // Fade In Out
+    private void FadeIn(Vector2 position)
+    {
+        animator.SetTrigger("FadeOut");
+        playerNextPosition = position;
+    }
+
+    public void SetPlayerPosition()
+    {
+        if(playerNextPosition != Vector2.zero)
+        {
+            Player.Instance.SetTransform(playerNextPosition);
+            playerNextPosition = Vector2.zero;
+        }
+        else
+        {
+            Debug.Log("Player Has No Next Transition Spot!");
+        }
     }
 }
