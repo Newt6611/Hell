@@ -30,7 +30,6 @@ public class AttackState : IPlayerState
 
     public override void OnExit()
     {
-        player.CanJump = true;
         player.CanAttack = true;
         player.trail.enabled = false;
     }

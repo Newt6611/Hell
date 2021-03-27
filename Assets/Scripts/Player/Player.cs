@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
 
     private bool faceRight = true;
     public bool IsRun { get; set; }
-    public bool CanJump { get; set; }
+    public bool IsJumping { get; set; }
     public bool CanAttack { get; set; }
 
     [SerializeField] private Transform jumpPos;
@@ -82,7 +82,6 @@ public class Player : MonoBehaviour
 
         // Init Values
         faceRight = true;
-        CanJump = true;
         CanAttack = true;
 
         health = 100;
@@ -125,13 +124,13 @@ public class Player : MonoBehaviour
     }
     
 
+
+
+
     private void Update() 
     {
         state.OnUpdate();
         state.PrintName();
-
-        if(!CanJump)
-            GroundDetection();
     }
 
     private void FixedUpdate() 
@@ -153,7 +152,7 @@ public class Player : MonoBehaviour
 
     private void JumpAction()
     {
-        if(CanJump)
+        if(GroundDetection())
             SetState(stateCache["jump"]);
     }
 
@@ -195,18 +194,23 @@ public class Player : MonoBehaviour
         transform.localScale = scale;
     }
 
-    public void GroundDetection()
+    public bool GroundDetection()
     {
-        if(Physics2D.OverlapCircle(JumpPosition.position, 0.3f, WalkableLayer) && !CanJump)
-        {
-            if(MovementX == 0)
-                SetState(GetStateCache()["idle"]);
-            else if(IsRun)
-                SetState(GetStateCache()["run"]);
-            else if(!IsRun)
-                SetState(GetStateCache()["walk"]);
-            CanJump = true;
-        }
+        if(Physics2D.OverlapCircle(JumpPosition.position, 0.5f, WalkableLayer))
+            return true;
+        else
+            return false;
+    }
+
+    public void EndJumpState()
+    {
+        // Decide Which State Should Go When End Jump
+        if(IsRun)
+            SetState(GetStateCache()["run"]);
+        else if(MovementX != 0)
+            SetState(GetStateCache()["walk"]);
+        else
+            SetState(GetStateCache()["idle"]);
     }
 
     public void TakeDamage(int d)
@@ -215,12 +219,9 @@ public class Player : MonoBehaviour
         Debug.Log("Player Damaged");
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(LayerMask.LayerToName(collision.gameObject.layer) == "Walkable")     
-        {
-            CanJump = true;
-        }
+        EndJumpState();
     }
     //////////////////////////////////////////////////
 
@@ -286,7 +287,7 @@ public class Player : MonoBehaviour
         if(showGizmos)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(JumpPosition.position, 0.3f);
+            Gizmos.DrawWireSphere(JumpPosition.position, 0.5f);
         }
     }
 

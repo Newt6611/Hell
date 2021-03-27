@@ -7,7 +7,7 @@ public class OneWayPlatform : MonoBehaviour
     [SerializeField] private bool isUp;
 
     // for scene one stair
-    [SerializeField] private GameObject stair;
+    [SerializeField] private Transform topStair;
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
@@ -15,10 +15,12 @@ public class OneWayPlatform : MonoBehaviour
         {
             transform.parent.GetComponent<Collider2D>().enabled = isUp;
             
+            
             if(isUp)
-                stair.GetComponent<SpriteRenderer>().sortingOrder = 40;
+                topStair.GetComponent<SpriteRenderer>().sortingOrder = 40;
             else
-                stair.GetComponent<SpriteRenderer>().sortingOrder = -1;
+                topStair.GetComponent<SpriteRenderer>().sortingOrder = -1;
+            
         }
     }
 }
