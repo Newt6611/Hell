@@ -25,7 +25,6 @@ public class AttackState : IPlayerState
 
     public override void OnFixedUpdate()
     {
-        player.GroundDetection();
     }
 
     public override void OnExit()
