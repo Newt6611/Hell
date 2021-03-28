@@ -5,14 +5,52 @@ using Cinemachine;
 
 public class HitStop : MonoBehaviour
 {
-    private bool waiting = false;
+    private bool waitingStop = false;
+    private bool waitingShake = false;
 
     private CinemachineBrain brain;
+    private CinemachineVirtualCamera currentCam;
 
     private void Awake()
     {
         brain = Camera.main.GetComponent<CinemachineBrain>();
     }
+
+    public void Stop(float time) 
+    {
+        if(waitingStop)
+            return;
+        Time.timeScale = 0.0f;
+        StartCoroutine(WaitStop(time));
+    }
+
+    private IEnumerator WaitStop(float time) 
+    {
+        waitingStop = true;
+        yield return new WaitForSecondsRealtime(time);
+        Time.timeScale = 1.0f;
+        waitingStop = false;
+    }
+
+    public void ShakeCamera(float intensity, float time)
+    {
+        if(waitingShake)
+            return;
+
+        CinemachineBasicMultiChannelPerlin perlin = currentCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        perlin.m_AmplitudeGain = intensity;
+        StartCoroutine(WaitShake(time, perlin));
+    }
+
+    private IEnumerator WaitShake(float time, CinemachineBasicMultiChannelPerlin perlin) 
+    {
+        waitingShake = true;
+        yield return new WaitForSecondsRealtime(time);
+        perlin.m_AmplitudeGain = 0.0f;
+        waitingShake = false;
+    }
+
+
 
     private void OnEnable()
     {
@@ -24,24 +62,11 @@ public class HitStop : MonoBehaviour
         brain.m_CameraActivatedEvent.RemoveListener(OnVCameraChange);
     }
 
-    public void Stop(float time) 
-    {
-        if(waiting)
-            return;
-        Time.timeScale = 0.0f;
-        StartCoroutine(Wait(time));
-    }
 
-    IEnumerator Wait(float time) 
-    {
-        waiting = true;
-        yield return new WaitForSecondsRealtime(time);
-        Time.timeScale = 1.0f;
-        waiting = false;
-    }
+
 
     private void OnVCameraChange(ICinemachineCamera camera, ICinemachineCamera c) 
     {
-        Debug.Log(camera.Name);
+        currentCam = camera as CinemachineVirtualCamera;
     }
 }
