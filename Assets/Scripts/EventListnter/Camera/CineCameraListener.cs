@@ -15,7 +15,6 @@ public class CineCameraListener : MonoBehaviour
     private float shakeTime;
     private float startIntensity;
 
-
     private void Awake() 
     {
         virtualCamera = GetComponent<CinemachineVirtualCamera>();    
