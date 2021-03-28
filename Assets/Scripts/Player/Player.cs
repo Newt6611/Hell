@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb { get; private set; }
     public Animator ani { get; private set; }
     public TrailRenderer trail { get; set; }
+    public HitStop hitStop { get; set; }
 
     [SerializeField] private InputReader inputReader;
 
@@ -79,6 +80,7 @@ public class Player : MonoBehaviour
         rb = GetComponentInChildren<Rigidbody2D>();
         ani = GetComponentInChildren<Animator>();
         trail = GetComponentInChildren<TrailRenderer>();
+        hitStop = GetComponent<HitStop>();
 
         // Init Values
         faceRight = true;
@@ -130,7 +132,6 @@ public class Player : MonoBehaviour
     private void Update() 
     {
         state.OnUpdate();
-        state.PrintName();
     }
 
     private void FixedUpdate() 
