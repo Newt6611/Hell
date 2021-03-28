@@ -28,6 +28,7 @@ public class PlayerBehavior : MonoBehaviour
         if(collider)
         {
             player.hitStop.Stop(0.2f);
+            player.hitStop.ShakeCamera(5f, 0.2f);
 
             collider.GetComponent<Enemy>().TakeDamage(1);
             player.mana -= 10;
