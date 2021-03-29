@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class HitStop : MonoBehaviour
+public class GameFeel : MonoBehaviour
 {
     private bool waitingStop = false;
     private bool waitingShake = false;

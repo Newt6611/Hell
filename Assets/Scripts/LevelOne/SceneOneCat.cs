@@ -128,7 +128,7 @@ public class SceneOneCat : MonoBehaviour, Enemy
         }
 
         // Chase
-        if(Vector2.Distance(transform.position, Player.Instance.transform.position) > 0.5)
+        if(Vector2.Distance(transform.position, Player.Instance.transform.position) > 1)
         {
             transform.position = Vector2.MoveTowards(transform.position, Player.Instance.transform.position, speed * Time.deltaTime);
         }

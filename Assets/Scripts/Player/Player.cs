@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     private bool faceRight = true;
     public bool IsRun { get; set; }
     public bool IsJumping { get; set; }
+    public bool IsAttack { get; set; }
     public bool CanAttack { get; set; }
 
     [SerializeField] private Transform jumpPos;
@@ -62,7 +63,7 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb { get; private set; }
     public Animator ani { get; private set; }
     public TrailRenderer trail { get; set; }
-    public HitStop hitStop { get; set; }
+    public GameFeel gameFeel { get; set; }
 
     [SerializeField] private InputReader inputReader;
 
@@ -80,7 +81,7 @@ public class Player : MonoBehaviour
         rb = GetComponentInChildren<Rigidbody2D>();
         ani = GetComponentInChildren<Animator>();
         trail = GetComponentInChildren<TrailRenderer>();
-        hitStop = GetComponent<HitStop>();
+        gameFeel = GetComponent<GameFeel>();
 
         // Init Values
         faceRight = true;
@@ -222,7 +223,8 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        EndJumpState();
+        if(!IsAttack)
+            EndJumpState();
     }
     //////////////////////////////////////////////////
 
