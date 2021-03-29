@@ -188,6 +188,13 @@ public class Player : MonoBehaviour
             Flip();
     }
 
+    public void BackOff(Vector2 other) 
+    {
+        float d = transform.position.x - other.x;
+        d = d > 0 ? 1 : -1;
+        rb.AddForce(Vector2.right * d * 80, ForceMode2D.Impulse);
+    }
+
     private void Flip()
     {
         faceRight = !faceRight;

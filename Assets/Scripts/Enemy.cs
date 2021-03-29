@@ -5,4 +5,5 @@ using UnityEngine;
 public interface Enemy
 {
     void TakeDamage(int d);
+    void BackOff();
 }

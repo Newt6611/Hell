@@ -30,7 +30,9 @@ public class PlayerBehavior : MonoBehaviour
             player.gameFeel.Stop(0.1f);
             player.gameFeel.ShakeCamera(5f, 0.2f);
 
-            collider.GetComponent<Enemy>().TakeDamage(1);
+            Enemy e = collider.GetComponent<Enemy>();
+            e.TakeDamage(1);
+            e.BackOff();
             player.mana -= 10;
         }
     }

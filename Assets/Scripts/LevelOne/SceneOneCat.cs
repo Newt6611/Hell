@@ -24,7 +24,7 @@ public class SceneOneCat : MonoBehaviour, Enemy
 
     // Attack
     private bool canAttack = false;
-    private float attackTimer = 2.5f;
+    private float attackTimer = 2.0f;
     private float attackTimerBTW;
 
     [Header("Radius")]
@@ -199,12 +199,21 @@ public class SceneOneCat : MonoBehaviour, Enemy
     {
         health -= d;
         Debug.Log("Cat Damaged");
+        /*
         if(health <= 0)
         {
             Debug.Log("Cat Dead");
             Destroy(gameObject);
-        }
+        }*/
     }
+
+    public void BackOff() 
+    {
+        float xdir = transform.position.x - Player.Instance.transform.position.x;
+        xdir = xdir > 0 ? 1 : -1;
+        rb.AddForce(Vector2.right * xdir * 40, ForceMode2D.Impulse);
+    }
+
 
     public void BackToIdle()
     {

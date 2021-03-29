@@ -25,6 +25,7 @@ public class Attacker : MonoBehaviour
                 if(Physics2D.OverlapCircle(attackPos.position, attackRadius, Player.Instance.playerLayer))
                 {
                     Player.Instance.TakeDamage(cat.power);
+                    Player.Instance.BackOff(transform.position);
                 }
                 break;
         }
